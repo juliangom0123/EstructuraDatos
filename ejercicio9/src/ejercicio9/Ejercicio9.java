@@ -1,7 +1,9 @@
-package test;
+package ejercicio9;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -9,11 +11,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class Test {
+public class Ejercicio9 {
 
-    public static void main(String[] args) throws Exception {
+    void principal() throws Exception {
+        String casoProfesor = "AVENIDA\n"
+            +"10\n"
+            +"5 1 2\n"
+            +"MARCHA 1 10\n"
+            +"MARCHA 4 8\n"
+            +"MARCHA 9 3\n"
+            +"ALCALDE 4 19\n"
+            +"MARCHA 1 10\n"
+            +"MARCHA 4 8\n"
+            +"MARCHA 9 3\n";
+        InputStream in = new ByteArrayInputStream(casoProfesor.getBytes());
+        principal(in);
+    }
 
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    public void principal(InputStream in) throws Exception {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(in));
         Map<Integer, Integer> listaEnlazada = new LinkedHashMap<Integer, Integer>();
         Map<Integer, Integer> resultado = new LinkedHashMap<Integer, Integer>();
         List<Integer> resultadoM = new LinkedList<>();
@@ -40,7 +56,7 @@ public class Test {
             }
             String marchaAlcade = bf.readLine();
             while (marchaAlcade != "") { // correccion de lectura
-                String[] split = marchaAlcade.split(" ");
+                String[] split = marchaAlcade.split(" ");  //nullPointerException ???
                 String comando = split[0];
                 if (comando.equals("")) {
                     break;
@@ -66,12 +82,12 @@ public class Test {
                             max = listaEnlazada.get(r);
                         }
                         indice = r;
-                    }                    
-                        for (int r = 1; r < indice; r++) {
-                            if (listaEnlazada.get(r) == max) {
-                                indiceRepetido = r;
-                            }
-                        }                    
+                    }
+                    for (int r = 1; r < indice; r++) {
+                        if (listaEnlazada.get(r) == max) {
+                            indiceRepetido = r;
+                        }
+                    }
                     if ((indiceRepetido < indice) && resultado.containsKey(indice) && (contadorMarchas >= 1)) {
                         int indiceLista = indiceRepetido;
                         listaValores.add(sum);
@@ -111,18 +127,9 @@ public class Test {
                 listaValores.remove(0);
             }
         }
+    }
 
-
-        /*int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
-        int n = arr.length;
-        int height = (int)(Math.log(n)/Math.log(2)) + 1;
-        int tree_nodes = (int) Math.pow(2, height + 1);
-        SegmentTree ob = new SegmentTree(tree_nodes);
-        ob.build(arr, 0, 0, n - 1);
-        for(int i = 0; i < tree_nodes; i++){
-            System.out.print(ob.tree[i] + " ");
-        }
-        System.out.println();
-        System.out.println(ob.query(0, 0, n - 1, 0, 5));*/
+    public static void main(String[] args) throws Exception {
+        new Ejercicio9().principal();
     }
 }
