@@ -45,10 +45,10 @@ public class Test {
             }
             System.out.println("ingrese marcha alcalde");
             StringTokenizer nt = new StringTokenizer(bf.readLine());
-            String comando = nt.nextToken();
-            int primero = Integer.parseInt(nt.nextToken());
-            int segundo = Integer.parseInt(nt.nextToken());
-            while (  ) { // correccion de lectura
+            while (true) { // correccion de lectura 
+                String comando = nt.nextToken();
+                int primero = Integer.parseInt(nt.nextToken());
+                int segundo = Integer.parseInt(nt.nextToken());
                 if ("marcha".equalsIgnoreCase(comando) && primero != 0 && segundo != 0) {
                     if (primero > segundo) {
                         primero = segundo;
@@ -69,14 +69,12 @@ public class Test {
                     for (int j = primero; replace <= 1; replace++) {
                         listaEnlazada.replace(primero, segundo);
                     }
-                } else {
-                    break;
-                }
-            }            
+                } 
+            }
         } else if ("CIUDAD".equalsIgnoreCase(clasificacion)) {
             System.out.println("No hay ciudad todavia :'v");
         }
-
+        bf.close();
         //System.out.println(listaEnlazada);
         if (indice != 0 && resultado.get(indice) != null) {
             System.out.println(indice + " " + resultado.get(indice));
