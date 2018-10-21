@@ -39,7 +39,7 @@ public class Test {
                 i++;
             }
             String marchaAlcade = bf.readLine();
-            while (marchaAlcade != "") { // correccion de lectura
+            while (marchaAlcade != null) {
                 String[] split = marchaAlcade.split(" ");
                 String comando = split[0];
                 if (comando.equals("")) {
@@ -66,12 +66,12 @@ public class Test {
                             max = listaEnlazada.get(r);
                         }
                         indice = r;
-                    }                    
-                        for (int r = 1; r < indice; r++) {
-                            if (listaEnlazada.get(r) == max) {
-                                indiceRepetido = r;
-                            }
-                        }                    
+                    }
+                    for (int r = 1; r < indice; r++) {
+                        if (listaEnlazada.get(r) == max) {
+                            indiceRepetido = r;            // indice en 0 cuando se repite
+                        }
+                    }
                     if ((indiceRepetido < indice) && resultado.containsKey(indice) && (contadorMarchas >= 1)) {
                         int indiceLista = indiceRepetido;
                         listaValores.add(sum);
@@ -111,18 +111,5 @@ public class Test {
                 listaValores.remove(0);
             }
         }
-
-
-        /*int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
-        int n = arr.length;
-        int height = (int)(Math.log(n)/Math.log(2)) + 1;
-        int tree_nodes = (int) Math.pow(2, height + 1);
-        SegmentTree ob = new SegmentTree(tree_nodes);
-        ob.build(arr, 0, 0, n - 1);
-        for(int i = 0; i < tree_nodes; i++){
-            System.out.print(ob.tree[i] + " ");
-        }
-        System.out.println();
-        System.out.println(ob.query(0, 0, n - 1, 0, 5));*/
     }
 }

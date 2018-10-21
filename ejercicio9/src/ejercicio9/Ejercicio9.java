@@ -15,15 +15,15 @@ public class Ejercicio9 {
 
     void principal() throws Exception {
         String casoProfesor = "AVENIDA\n"
-            +"10\n"
-            +"5 1 2\n"
-            +"MARCHA 1 10\n"
-            +"MARCHA 4 8\n"
-            +"MARCHA 9 3\n"
-            +"ALCALDE 4 19\n"
-            +"MARCHA 1 10\n"
-            +"MARCHA 4 8\n"
-            +"MARCHA 9 3\n";
+                + "10\n"
+                + "5 1 2\n"
+                + "MARCHA 1 10\n"
+                + "MARCHA 4 8\n"
+                + "MARCHA 9 3\n"
+                + "ALCALDE 4 19\n"
+                + "MARCHA 1 10\n"
+                + "MARCHA 4 8\n"
+                + "MARCHA 9 3\n";
         InputStream in = new ByteArrayInputStream(casoProfesor.getBytes());
         principal(in);
     }
@@ -55,8 +55,8 @@ public class Ejercicio9 {
                 i++;
             }
             String marchaAlcade = bf.readLine();
-            while (marchaAlcade != "") { // correccion de lectura
-                String[] split = marchaAlcade.split(" ");  //nullPointerException ???
+            while (marchaAlcade != null) {  
+                String[] split = marchaAlcade.split(" ");    
                 String comando = split[0];
                 if (comando.equals("")) {
                     break;
@@ -83,12 +83,12 @@ public class Ejercicio9 {
                         }
                         indice = r;
                     }
-                    for (int r = 1; r < indice; r++) {
+                    for (int r = 1; r <= indice; r++) {
                         if (listaEnlazada.get(r) == max) {
-                            indiceRepetido = r;
+                            indiceRepetido = r;             // indice en 0 cuando se repite
                         }
-                    }
-                    if ((indiceRepetido < indice) && resultado.containsKey(indice) && (contadorMarchas >= 1)) {
+                    }                                        
+                    if ((indiceRepetido <= indice) && resultado.containsKey(indice) && (contadorMarchas >= 1)) {
                         int indiceLista = indiceRepetido;
                         listaValores.add(sum);
                         listaIndices.add(indiceLista);
@@ -105,7 +105,7 @@ public class Ejercicio9 {
                     int replace = 1;
                     for (int j = primero; replace <= 1; replace++) {
                         listaEnlazada.replace(primero, segundo);
-                    }
+                    }                   
                     marchaAlcade = bf.readLine();
                 }
             }
