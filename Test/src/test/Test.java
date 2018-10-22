@@ -144,7 +144,7 @@ public class Test {
                 String calle1 = split[1];
                 String callej = split[2];
                 String carrera1 = split[3];
-                String carreraj = split[4];
+                String carreraj = split[4];                
                 int primeracl = Integer.parseInt(calle1);
                 int segundacl = Integer.parseInt(callej);
                 int primeracr = Integer.parseInt(carrera1);
