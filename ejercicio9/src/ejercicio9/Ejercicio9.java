@@ -250,6 +250,7 @@ public class Ejercicio9 {
                     listaIndices.remove(0);
                     listaIndices.remove(0);
                     listaValores.remove(0);
+                    
                 }
             }
         }

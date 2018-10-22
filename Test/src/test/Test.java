@@ -202,6 +202,7 @@ public class Test {
                         listaIndices.add(indiceListaj);
                         contadorMarchas--;
                         marchaAlcade = bf.readLine();
+                        
                     } else {
                         listaIndiResultado.add(indicecl);
                         listaIndiResultado.add(indicecr);
