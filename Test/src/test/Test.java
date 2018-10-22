@@ -12,15 +12,15 @@ import java.util.StringTokenizer;
 public class Test {
 
     public static void main(String[] args) throws Exception {
-
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         Map<Integer, Integer> listaEnlazada = new LinkedHashMap<Integer, Integer>();
         Map<Integer, Integer> resultado = new LinkedHashMap<Integer, Integer>();
-        List<Integer> resultadoM = new LinkedList<>();
+        List<Integer> listaValResultado = new LinkedList<>();
         List<Integer> listaIndiResultado = new LinkedList<>();
         List<Integer> listaValores = new LinkedList<>();
         List<Integer> listaIndices = new LinkedList<>();
         int contadorMarchas = 0;
+        System.out.println("clasiicacion");
         String clasificacion = bf.readLine();
         if ("AVENIDA".equalsIgnoreCase(clasificacion)) {
             int casosEnArray = Integer.parseInt(bf.readLine());
@@ -28,7 +28,6 @@ public class Test {
             int f1 = Integer.parseInt(st.nextElement().toString());
             int a = Integer.parseInt(st.nextElement().toString());
             int b = Integer.parseInt(st.nextElement().toString());
-
             int mov = f1;
             listaEnlazada.put(1, mov);
             int i = 2;
@@ -61,15 +60,20 @@ public class Test {
                     for (int j = primero; j <= segundo; j++) {
                         sum += listaEnlazada.get(j);
                     }
-                    for (int r = 1; r <= segundo; r++) {
+                    for (int r = primero; r <= segundo; r++) {
                         if (listaEnlazada.get(r) > max) {
                             max = listaEnlazada.get(r);
                         }
                         indice = r;
                     }
-                    for (int r = 1; r < indice; r++) {
+                    for (int r = primero; r <= indice; r++) {
                         if (listaEnlazada.get(r) == max) {
-                            indiceRepetido = r;            // indice en 0 cuando se repite
+                            indiceRepetido = r;
+                        }
+                    }
+                    for (int r = primero; r < indice; r++) {
+                        if (listaEnlazada.get(r) == max) {
+                            indiceRepetido = r;
                         }
                     }
                     if ((indiceRepetido < indice) && resultado.containsKey(indice) && (contadorMarchas >= 1)) {
@@ -81,7 +85,7 @@ public class Test {
                     } else {
                         listaIndiResultado.add(indice);
                         resultado.put(indice, sum);
-                        resultadoM.add(sum);
+                        listaValResultado.add(sum);
                         marchaAlcade = bf.readLine();
                         contadorMarchas++;
                     }
@@ -93,23 +97,136 @@ public class Test {
                     marchaAlcade = bf.readLine();
                 }
             }
+            bf.close();
+            if (!(listaIndiResultado.isEmpty())) {
+                while (!(listaIndiResultado.isEmpty())) {
+                    System.out.println(listaIndiResultado.get(0) + " " + listaValResultado.get(0));
+                    listaIndiResultado.remove(0);
+                    listaValResultado.remove(0);
+                }
+            }
+            if (!(listaIndices.isEmpty())) {
+                while (!(listaIndices.isEmpty())) {
+                    System.out.println(listaIndices.get(0) + " " + listaValores.get(0));
+                    listaIndices.remove(0);
+                    listaValores.remove(0);
+                }
+            }
         } else if ("CIUDAD".equalsIgnoreCase(clasificacion)) {
-            System.out.println("No hay ciudad todavia :'v");
-        }
-        bf.close();
-        if (!(listaIndiResultado.isEmpty())) {
-            while (!(listaIndiResultado.isEmpty())) {
-                System.out.println(listaIndiResultado.get(0) + " " + resultadoM.get(0));
-                listaIndiResultado.remove(0);
-                resultadoM.remove(0);
+            System.out.println("calles y carreras");
+            StringTokenizer nt = new StringTokenizer(bf.readLine());
+            int calles = Integer.parseInt(nt.nextElement().toString());
+            int carreras = Integer.parseInt(nt.nextElement().toString());
+            ++calles;
+            ++carreras;
+            int[][] tablero = new int[calles][carreras];
+            System.out.println("datos algoritmo");
+            StringTokenizer st = new StringTokenizer(bf.readLine());
+            int f1 = Integer.parseInt(st.nextElement().toString());
+            int a = Integer.parseInt(st.nextElement().toString());
+            int b = Integer.parseInt(st.nextElement().toString());
+            int mov = f1;
+            for (int cl = 1; cl < tablero.length; cl++) {
+                for (int cr = 1; cr < tablero[1].length; cr++) {
+                    boolean r = true;
+                    while (r) {
+                        tablero[cl][cr] = mov;
+                        mov = (a * mov + b) % 1000000;
+                        r = false;
+                    }
+                }
             }
-        }
-        if (!(listaIndices.isEmpty())) {
-            while (!(listaIndices.isEmpty())) {
-                System.out.println(listaIndices.get(0) + " " + listaValores.get(0));
-                listaIndices.remove(0);
-                listaValores.remove(0);
+            String marchaAlcade = bf.readLine();
+            while (marchaAlcade != null) {
+                String[] split = marchaAlcade.split(" ");
+                String comando = split[0];
+                if (comando.equals("")) {
+                    break;
+                }
+                String calle1 = split[1];
+                String callej = split[2];
+                String carrera1 = split[3];
+                String carreraj = split[4];
+                int primeracl = Integer.parseInt(calle1);
+                int segundacl = Integer.parseInt(callej);
+                int primeracr = Integer.parseInt(carrera1);
+                int segundacr = Integer.parseInt(carreraj);
+                if (primeracl > segundacl) {
+                    primeracl = Integer.parseInt(callej);
+                    segundacl = Integer.parseInt(calle1);
+                }
+                if (primeracr > segundacr) {
+                    primeracr = Integer.parseInt(carreraj);
+                    segundacr = Integer.parseInt(carrera1);
+                }
+                int sum = 0;
+                int indicecl = 0;
+                int indicecr = 0;
+                int indiceRepetidoi = 0;
+                int indiceRepetidoj = 0;
+                int max = 0;
+                if ("marcha".equalsIgnoreCase(comando) && primeracl != 0 && segundacl != 0 && primeracr != 0 && segundacr != 0) {
+                    for (int i = primeracl; i <= segundacl; i++) {
+                        for (int j = primeracr; j <= segundacr; j++) {
+                            sum += tablero[i][j];
+                        }
+                    }
+                    for (int i = primeracl; i <= segundacl; i++) {
+                        for (int j = primeracr; j <= segundacr; j++) {
+                            if (tablero[i][j] > max) {
+                                max = tablero[i][j];
+                            }
+                            indicecl = i;
+                            indicecr = j;
+                        }
+                    }
+                    for (int i = primeracl; i <= indicecl; i++) {
+                        for (int j = primeracr; j <= indicecr; j++) {
+                            if (tablero[i][j] == max) {
+                                indiceRepetidoi = i;
+                                indiceRepetidoj = j;
+                            }
+                        }
+                    }
+                    for (int i = primeracl; i < indicecl; i++) {
+                        for (int j = primeracr; j < indicecr; j++) {
+                            if (tablero[i][j] == max) {
+                                indiceRepetidoi = i;
+                                indiceRepetidoj = j;
+                            }
+                        }
+                    }
+                    if (((indiceRepetidoi < indicecl && indiceRepetidoj < indicecr)) && (resultado.containsKey(indicecl) && resultadoj.containsKey(indicecr)) && (contadorMarchas >= 1)) {
+                        int indiceListai = indiceRepetidoi;
+                        int indiceListaj = indiceRepetidoj;
+                        listaValores.add(sum);
+                        listaIndices.add(indiceListai);
+                        listaIndices.add(indiceListaj);
+                        contadorMarchas--;
+                        marchaAlcade = bf.readLine();
+                    } else {
+                        listaIndiResultado.add(indicecl);
+                        listaIndiResultado.add(indicecr);
+                        listaValResultado.add(sum);
+                        contadorMarchas++;
+                        marchaAlcade = bf.readLine();
+                    }
+                } else if ("alcalde".equalsIgnoreCase(comando) && primeracl != 0 && segundacl != 0 && primeracr != 0 && segundacr != 0) {
+                    int replace = 1;
+                    for (int j = primero; replace <= 1; replace++) {
+                        listaEnlazada.replace(primero, segundo);
+                    }
+                    marchaAlcade = bf.readLine();
+                }
             }
+
+            //lectura de comandos secundarios
+            //lectura de actualizacion
+            //guardado de resultado
+            //criterios de algoritmo
         }
     }
+
+    bf.close ();
+}
 }
