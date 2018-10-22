@@ -113,14 +113,12 @@ public class Test {
                 }
             }
         } else if ("CIUDAD".equalsIgnoreCase(clasificacion)) {
-            System.out.println("calles y carreras");
             StringTokenizer nt = new StringTokenizer(bf.readLine());
             int calles = Integer.parseInt(nt.nextElement().toString());
             int carreras = Integer.parseInt(nt.nextElement().toString());
             ++calles;
             ++carreras;
             int[][] tablero = new int[calles][carreras];
-            System.out.println("datos algoritmo");
             StringTokenizer st = new StringTokenizer(bf.readLine());
             int f1 = Integer.parseInt(st.nextElement().toString());
             int a = Integer.parseInt(st.nextElement().toString());
@@ -196,7 +194,7 @@ public class Test {
                             }
                         }
                     }
-                    if (((indiceRepetidoi < indicecl && indiceRepetidoj < indicecr)) && (resultado.containsKey(indicecl) && resultadoj.containsKey(indicecr)) && (contadorMarchas >= 1)) {
+                    if (((indiceRepetidoi < indicecl && indiceRepetidoj < indicecr)) && (resultado.containsKey(indicecl) && resultado.containsKey(indicecr)) && (contadorMarchas >= 1)) {
                         int indiceListai = indiceRepetidoi;
                         int indiceListaj = indiceRepetidoj;
                         listaValores.add(sum);
@@ -207,26 +205,41 @@ public class Test {
                     } else {
                         listaIndiResultado.add(indicecl);
                         listaIndiResultado.add(indicecr);
+                        resultado.put(indicecl, sum);
+                        resultado.put(indicecr, sum);
                         listaValResultado.add(sum);
                         contadorMarchas++;
                         marchaAlcade = bf.readLine();
                     }
-                } else if ("alcalde".equalsIgnoreCase(comando) && primeracl != 0 && segundacl != 0 && primeracr != 0 && segundacr != 0) {
+                } else if ("alcalde".equalsIgnoreCase(comando) && primeracl != 0 && segundacl != 0 && primeracr != 0 && (carreraj == null)) {
                     int replace = 1;
-                    for (int j = primero; replace <= 1; replace++) {
-                        listaEnlazada.replace(primero, segundo);
+                    for (int cl = primeracl; cl < tablero.length; cl++) {
+                        for (int cr = segundacl; cr < tablero[segundacl].length; cr++) {
+                            tablero [cl][cr]  = primeracr;
+                        }
+                        marchaAlcade = bf.readLine();
                     }
-                    marchaAlcade = bf.readLine();
                 }
             }
-
-            //lectura de comandos secundarios
-            //lectura de actualizacion
-            //guardado de resultado
-            //criterios de algoritmo
+            bf.close();
+            if (!(listaIndiResultado.isEmpty())) {
+                while (!(listaIndiResultado.isEmpty())) {
+                    System.out.println(listaIndiResultado.get(0) + " " + listaIndiResultado.get(0) + " " + listaValResultado.get(0));
+                    listaIndiResultado.remove(0);
+                    listaIndiResultado.remove(0);
+                    listaValResultado.remove(0);
+                }
+            }
+            if (!(listaIndices.isEmpty())) {
+                while (!(listaIndices.isEmpty())) {
+                    System.out.println(listaIndices.get(0) + " " + listaIndices.get(0) + " " + listaValores.get(0));
+                    listaIndices.remove(0);
+                    listaIndices.remove(0);
+                    listaValores.remove(0);
+                }
+            }
         }
-    }
 
-    bf.close ();
-}
+        bf.close();
+    }
 }
