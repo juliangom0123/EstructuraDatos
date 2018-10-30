@@ -12,36 +12,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-
+/**
+ *
+ * @author RENE
+ */
 public class Ejercicio9 {
 
-    void principal() throws Exception {
-        String[] casoProfesor = {"AVENIDA\n"
-            + "10\n"
-            + "5 1 2\n"
-            + "MARCHA 1 10\n"
-            + "MARCHA 4 8\n"
-            + "MARCHA 9 3\n"
-            + "ALCALDE 4 19\n"
-            + "MARCHA 1 10\n"
-            + "MARCHA 4 8\n"
-            + "MARCHA 9 3\n",
-            "avenida\n"
-            + "10\n"
-            + "5 1 2\n"
-            + "marcha 1 10\n"
-            + "marcha 4 8\n"
-            + "marcha 9 3\n"
-            + "alcalde 4 19\n"
-            + "marcha 1 10\n"
-            + "marcha 4 8\n"
-            + "marcha 1 10\n"};
-        InputStream in = new ByteArrayInputStream(casoProfesor[0].getBytes());
-        principal(in);
-    }
-
-    public void principal(InputStream in) throws Exception {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+//    void principal() throws Exception {
+//        String[] casoProfesor = {"AVENIDA\n"
+//            + "10\n"
+//            + "5 1 2\n"
+//            + "MARCHA 1 10\n"
+//            + "MARCHA 4 8\n"
+//            + "MARCHA 9 3\n"
+//            + "ALCALDE 4 19\n"
+//            + "MARCHA 1 10\n"
+//            + "MARCHA 4 8\n"
+//            + "MARCHA 9 3\n",
+//            "avenida\n"
+//            + "10\n"
+//            + "5 1 2\n"
+//            + "marcha 1 10\n"
+//            + "marcha 4 8\n"
+//            + "marcha 9 3\n"
+//            + "alcalde 4 19\n"
+//            + "marcha 1 10\n"
+//            + "marcha 4 8\n"
+//            + "marcha 1 10\n"};
+//        InputStream in = new ByteArrayInputStream(casoProfesor[0].getBytes());
+//        principal(in);
+//    }
+    public void principal() throws Exception {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         long[] esmadPorCalle;
         StringBuilder resultado = new StringBuilder();
 
@@ -72,7 +74,7 @@ public class Ejercicio9 {
                     int calleFin = Integer.parseInt(split[2]) - 1;
                     int sentidoMarcha = Integer.signum(calleFin - calleInicio);
                     List<IndiceMinimoMaximo> calleEsmadMax = new ArrayList<>();
-                    long beginBoss = System.nanoTime();                    
+                    long beginBoss = System.nanoTime();
                     //calleEsmadMax.add(new IndiceMinimoMaximo(0, 0));
                     //Arrays.asList(arreglo).forEach(System.out::println);  //recorrer arrelo como lista O de 
                     int indice = -1;
@@ -99,14 +101,14 @@ public class Ejercicio9 {
                             }
                         }
                     }
-                    
+
                     if (!calleEsmadMax.isEmpty()) {
                         calleEsmadMax.add(new IndiceMinimoMaximo(max, indice));
-                       Collections.sort(calleEsmadMax);
-                       resultado.append(calleEsmadMax.get(0).indice + 1).append(" ").append(sum).append("\n");
-                   } else {
-                       resultado.append(indice + 1).append(" ").append(sum).append("\n");
-                   }
+                        Collections.sort(calleEsmadMax);
+                        resultado.append(calleEsmadMax.get(0).indice + 1).append(" ").append(sum).append("\n");
+                    } else {
+                        resultado.append(indice + 1).append(" ").append(sum).append("\n");
+                    }
 
                     //System.out.println("Time 2::" + (System.nanoTime() - beginBoss));
                 } else if ("alcalde".equalsIgnoreCase(comando)) {
