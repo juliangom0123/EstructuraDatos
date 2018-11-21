@@ -1,17 +1,20 @@
 package testclassj5;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.TreeSet;
 
 public class TestClassJ5 {
 
     private final static String EVENT_ATENDER = "ATENDER";
     private final static String EVENT_RECLAMO = "RECLAMO";
-    private final static String EVENT_VACIO = "No hay reclamos pendientes";   
+    private final static String EVENT_VACIO = "No hay reclamos pendientes";
 
     void principal() throws Exception {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int numeroCasos = Integer.parseInt(bf.readLine()) ;
+        int numeroCasos = Integer.parseInt(bf.readLine());
         String strLine = null;
         TreeSet<Task> listTask = new TreeSet<>();
         StringBuilder resultado = new StringBuilder();
@@ -23,24 +26,26 @@ public class TestClassJ5 {
                 String descripcionCaso = bf.readLine();
                 String promedio = bf.readLine();
                 Task task = new Task(Long.parseLong(identificacionReclamo), Double.parseDouble(promedio), descripcionCaso);
-                listTask.add(task);               
+                listTask.add(task);
             }
             if (clasificacion.equalsIgnoreCase(EVENT_ATENDER)) {
                 if (listTask.isEmpty()) {
                     resultado.append(EVENT_VACIO).append("\n");
                 } else {
                     Task task = listTask.pollFirst();
-                    resultado.append(task.getIdentificacionReclamo()+" "+task.getDescripcionCaso()).append("\n");
-                }               
+                    resultado.append(task.getIdentificacionReclamo() + " " + task.getDescripcionCaso()).append("\n");
+                }
             }
- 
+
         }
         bf.close();
         System.out.println(resultado.toString());
     }
+
     public static void main(String[] args) throws Exception {
         new TestClassJ5().principal();
     }
+
     class Task implements Comparable<Task> {
 
         long identificacionReclamo;
@@ -91,27 +96,6 @@ public class TestClassJ5 {
         public String toString() {
             return "Task [promedio=" + promedio + ", identificacionReclamo=" + identificacionReclamo
                     + ", descripcionCaso=" + descripcionCaso + ", createDate=" + createDate + "]\n";
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final Task other = (Task) obj;
-            return true;
         }
 
         @Override

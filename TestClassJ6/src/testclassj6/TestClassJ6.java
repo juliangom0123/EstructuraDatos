@@ -57,9 +57,6 @@ public class TestClassJ6 {
         // TODO code application logic here
         BufferedReader auxIngre = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder ingreso = new StringBuilder(auxIngre.readLine());
-        if (ingreso.length() < 100000) {
             System.out.println(Organizador(ingreso));
-        }
-
     }
 }
