@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 /**
  *
@@ -12,24 +13,32 @@ import java.util.StringTokenizer;
  */
 public class TestClassJ12 {
 
+    private final static String EVENT_APELLIDO = "APELLIDO";
     private final static String EVENT_CREATED = "CREATED";
-    private final static String EVENT_READ = "READ";
-    private final static String EVENT_ID = "ID";
+    private final static String EVENT_NOMBRE = "NOMBRE";
     private final static String EVENT_DELETE = "DELETE";
     private final static String EVENT_UPDATE = "UPDATE";
+    private final static String EVENT_READ = "READ";
     private final static String EVENT_EDAD = "EDAD";
     private final static String EVENT_PAPA = "PAPA";
-    private final static String EVENT_NOMBRE = "NOMBRE";
-    private final static String EVENT_APELLIDO = "APELLIDO";
+    private final static String EVENT_ID = "ID";
 
     void principal() throws Exception {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        
         int lineas = 0;
+        System.out.println("inicio");
+        TreeSet<Estudiante> arbolito = new TreeSet<>();
+
         while (lineas <= 200000) {
             lineas++;
             String linea = bf.readLine();
+            if (linea.equals("")) {
+                break;
+            }
             StringTokenizer bt = new StringTokenizer(linea);
             String comando = bt.nextToken();
+            
             if (comando.equalsIgnoreCase(EVENT_CREATED)) {
                 int idEstudante = Integer.parseInt(bt.nextToken());
                 String nombreEstudiante = bt.nextToken();
@@ -37,6 +46,7 @@ public class TestClassJ12 {
                 short edadEstudiante = Short.parseShort(bt.nextToken());
                 Double papaEstudiante = Double.parseDouble(bt.nextToken());
                 Estudiante estudiante = new Estudiante(idEstudante, nombreEstudiante, apellidoEstudiante, edadEstudiante, papaEstudiante);
+                arbolito.add(estudiante);
             }
             if (comando.equalsIgnoreCase(EVENT_READ)) {
                 String lector = bt.nextToken();
@@ -79,7 +89,7 @@ public class TestClassJ12 {
     }
 
     public static void main(String[] args) throws Exception {
-        new testclassj12.TestClassJ12();
+        new TestClassJ12().principal();
     }
 
     class Estudiante implements Comparable<Estudiante> {
@@ -96,7 +106,7 @@ public class TestClassJ12 {
         }
 
         public Estudiante(int documento, String nombre, String apellido, short edad, double papa) {
-            if ((documento >= 100000) && (documento <= 1000000000)) {
+            if ((documento >= 100000) && (documento <= 999999999)) {
                 this.documento = documento;
             } else {
                 System.out.println("Numero de id invalido");
