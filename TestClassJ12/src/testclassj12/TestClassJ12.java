@@ -3,7 +3,9 @@ package testclassj12;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
@@ -25,11 +27,10 @@ public class TestClassJ12 {
 
     void principal() throws Exception {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        
         int lineas = 0;
-        System.out.println("inicio");
         TreeSet<Estudiante> arbolito = new TreeSet<>();
-
+        Map<Long, Estudiante> auxiliar = new LinkedHashMap<>();
+        StringBuilder resultado = new StringBuilder();
         while (lineas <= 200000) {
             lineas++;
             String linea = bf.readLine();
@@ -38,23 +39,30 @@ public class TestClassJ12 {
             }
             StringTokenizer bt = new StringTokenizer(linea);
             String comando = bt.nextToken();
-            
             if (comando.equalsIgnoreCase(EVENT_CREATED)) {
-                int idEstudante = Integer.parseInt(bt.nextToken());
+                long idEstudante = Long.parseLong(bt.nextToken());
                 String nombreEstudiante = bt.nextToken();
                 String apellidoEstudiante = bt.nextToken();
-                short edadEstudiante = Short.parseShort(bt.nextToken());
-                Double papaEstudiante = Double.parseDouble(bt.nextToken());
+                String edadAux = bt.nextToken();
+                if (edadAux.contains(".")) {
+                    edadAux.substring(0, Integer.parseInt("."));
+                    edadAux.substring(0, (edadAux.length()) - 1);
+                }
+                short edadEstudiante = Short.parseShort(edadAux);
+                String papaAux = bt.nextToken();
+                Double papaEstudiante = Double.parseDouble(papaAux);
+                Double papaFinal = (double) Math.round(papaEstudiante * 100d) / 100d;
                 Estudiante estudiante = new Estudiante(idEstudante, nombreEstudiante, apellidoEstudiante, edadEstudiante, papaEstudiante);
                 arbolito.add(estudiante);
+                auxiliar.put(idEstudante, estudiante);
             }
             if (comando.equalsIgnoreCase(EVENT_READ)) {
                 String lector = bt.nextToken();
                 if (lector.equalsIgnoreCase(EVENT_ID)) {
                     int idEstud = Integer.parseInt(bt.nextToken());
                 }
-                if (lector.equalsIgnoreCase(EVENT_EDAD)) {
-                    short edadEstud = Short.parseShort(bt.nextToken());
+                if (lector.equalsIgnoreCase(EVENT_EDAD)) { 
+                   short edadEstud = Short.parseShort(bt.nextToken());
                 }
                 if (lector.equalsIgnoreCase(EVENT_PAPA)) {
                     Double papaEstud = Double.parseDouble(bt.nextToken());
@@ -62,9 +70,19 @@ public class TestClassJ12 {
                 if (lector.equalsIgnoreCase(EVENT_NOMBRE) || lector.equalsIgnoreCase(EVENT_APELLIDO)) {
                     String newNick = bt.nextToken();
                 }
+                //resultado.append(descartable.documento + " " + descartable.nombre + " " + descartable.apellido + " " + descartable.edad + " " + descartable.papa).append("\n");
             }
             if (comando.equalsIgnoreCase(EVENT_DELETE)) {
-                int idEstudDele = Integer.parseInt(bt.nextToken());
+                long idEstudDele = Long.parseLong(bt.nextToken());
+                Estudiante descartable = auxiliar.get(idEstudDele);
+                if (arbolito.contains(descartable)) {                    
+                    arbolito.remove(descartable);
+                    auxiliar.remove(idEstudDele);
+
+                } else {
+                    resultado.append("no existe estudiante con ID " + idEstudDele).append("\n");
+                }
+
             }
             if (comando.equalsIgnoreCase(EVENT_UPDATE)) {
                 int idEstudUp = Integer.parseInt(bt.nextToken());
@@ -83,8 +101,8 @@ public class TestClassJ12 {
                 }
             }
         }
-
         bf.close();
+        System.out.println(resultado.toString());
 
     }
 
@@ -94,7 +112,7 @@ public class TestClassJ12 {
 
     class Estudiante implements Comparable<Estudiante> {
 
-        int documento;
+        Long documento;
         String nombre;
         String apellido;
         short edad;
@@ -105,12 +123,8 @@ public class TestClassJ12 {
             return "Estudiante{" + "documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + ", papa=" + papa + '}';
         }
 
-        public Estudiante(int documento, String nombre, String apellido, short edad, double papa) {
-            if ((documento >= 100000) && (documento <= 999999999)) {
-                this.documento = documento;
-            } else {
-                System.out.println("Numero de id invalido");
-            }
+        public Estudiante(Long documento, String nombre, String apellido, short edad, double papa) {
+            this.documento = documento;
             if (nombre.length() <= 50) {
                 this.nombre = nombre;
             } else {
@@ -121,17 +135,21 @@ public class TestClassJ12 {
             } else {
                 this.apellido = apellido.substring(0, 50);
             }
-            if (edad <= 127) {
+            if (edad <= 0) {
+                this.edad = 0;
+            } else if ((edad <= 127) && (edad > 0)) {
                 this.edad = edad;
+            } else if (edad > 127) {
+                this.edad = 127;
             }
             this.papa = papa;
         }
 
-        public int getDocumento() {
+        public long getDocumento() {
             return documento;
         }
 
-        public void setDocumento(int documento) {
+        public void setDocumento(long documento) {
             this.documento = documento;
         }
 
